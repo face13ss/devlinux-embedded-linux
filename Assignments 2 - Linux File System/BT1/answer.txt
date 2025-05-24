@@ -1,0 +1,2 @@
+mặc dù lseek() di chuyển con trỏ file lên đầu
+nhưng coè O_APPEND được bật khi mở file nên lần ghi sau khi di chuyển con trỏ file lên đầu vẫn nối ở cuối file
