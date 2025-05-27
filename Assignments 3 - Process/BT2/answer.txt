@@ -1,0 +1,4 @@
+Khi exec family được gọi
+chương trình sẽ tải file thực thi mới (ví dụ ls) từ disk vào memory
+process image của app sẽ được thay thế hoàn toàn bởi bởi ls (text, stack, heap,...)
+Khởi động chương trình mới (ls) từ main của ls và các tham số lúc gọi exec truyền vào

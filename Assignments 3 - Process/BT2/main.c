@@ -8,31 +8,25 @@ int main(int argc, char *argv[]) {
     }
     
     // build argument array
-    char *argvLS[argc];
+    int num_args = argc - 2;
+    char *argvLS[num_args + 2];
 
-    for (int i = 0; i < argc ; i++) {
-            if (i == 0) {
-                continue;
-            }
-            if (i == argc - 1) {
-                argvLS[i] = NULL;
-                break;
-            }
-            argvLS[i] = argv[i + 1];
-        }
-
-    if (strcmp(argv[1], "1") == 0)
-    {
+    if (strcmp(argv[1], "1") == 0){
         argvLS[0] = "ls";
-        execvp("ls", argvLS);
-        return 0;
-
-    } else if (strcmp(argv[1], "2") == 0)
-    {
+    } else if (strcmp(argv[1], "2") == 0) {
         argvLS[0] = "date";
-        execvp("date", argvLS);
-        return 0;
-    }
+    } else {
         return -1;
+    }
+
+    for (int i = 0; i < num_args; i++) {
+        argvLS[i + 1] = argv[i + 2];
+    }
+
+    argvLS[num_args + 1] = NULL;
+
+    execvp(argvLS[0], argvLS);
+
+    return 1;
     
 }
