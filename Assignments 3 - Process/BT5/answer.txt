@@ -1,0 +1,8 @@
+Zomebie process:
+    Là tiến trình con đã kết thúc quá trình xử lý nhưng vẫn bị giữ lại tại process table của process cha để chờ trả về report (wait())
+    được gọi là tiến trình Zomebie
+    Tiến trình zombie xảy ra khi một tiến trình con hoàn tất nhưng tiến trình cha chưa gọi wait() để đọc trạng thái của nó.
+
+orphan process:
+    là tiến trình con mà parent của nó bị dừng hoạt kết thúc trong khi tiến trình con này vẫn chạy. Là khi tiến trình parent không khả dụng
+    để quản lý child process. Lúc này child process sẽ được quản lý bởi tiếng trình init (pid=1).
