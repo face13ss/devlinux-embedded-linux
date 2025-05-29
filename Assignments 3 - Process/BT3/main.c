@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+
+static int received = 0;
+
+void readUsual(int signal) {
+    if (signal == SIGUSR1){
+        printf("SIGUSR1\n");
+        received = 1;
+    }
+}
+
+int main() {
+
+    int status, retVal;
+    signal(SIGUSR1, readUsual);
+    pid_t pid = fork();
+    if (pid < 0) {
+        printf("Can't create child process\n");
+    }
+    else if ( pid == 0) {
+        printf("child process, pid=%d\n",getpid());
+        while (!received)
+            ;
+        printf("SIGUSR1 received.\n");
+    }
+    else 
+    {
+        kill(pid,SIGUSR1);
+        retVal = wait(&status);
+        if (retVal == -1) {
+            printf("wait() unsuccessfull\n");
+        }
+        printf("child process status: %d and return value: %d\n", status, retVal);
+    }
+
+    return 0;
+}
