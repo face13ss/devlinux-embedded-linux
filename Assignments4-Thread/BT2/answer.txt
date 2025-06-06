@@ -1,0 +1,16 @@
+Hỏi: Tại sao cần mutex trong bài này? Điều gì xảy ra nếu bỏ mutex?
+
+Trả lời: vì khi một thread chạy có thể bị context switch bất kỳ lúc nào
+
+    void *increment_counter(void *arg) {
+        // pthread_mutex_lock(&lock1);
+        for (size_t i = 0; i < INCREMENT_PER_THREAD; i++) {
+            counter++;
+        }
+        // pthread_mutex_unlock(&lock1);
+        return NULL;
+    }
+Với đoạn code trên nếu thread chạy đến câu lện counter nhưng chưa kịp thực hiện toán tử ++ thì khi được tiếp tục chạy
+counter sẽ tiếp tục được lấy giá trị được lưu trên context switch chứ không phải giá trị counter hiện tại.
+Khi đó thread hiện tại chưa kịp cập nhật giá trị counter mới thì đã bị thread khác lấy counter và ghi đè giá trị của thread khác lên
+Lúc này sử dụng mutex để chắc chắn tại một thời điểm chỉ có 1 thread duy nhất có thể truy cập và gi ngược lại giá trị vào counter
