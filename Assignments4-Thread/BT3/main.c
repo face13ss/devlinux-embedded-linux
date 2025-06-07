@@ -2,9 +2,6 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#define NUMBER_THREADS 3
-#define INCREMENT_PER_THREAD 100000
-
 #define THRESHOLD 10
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
