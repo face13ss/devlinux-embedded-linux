@@ -1,0 +1,3 @@
+Câu hỏi: Điều gì xảy ra nếu không xử lý tín hiệu SIGTSTP và người dùng nhấn Ctrl+Z?
+
+Trả lời: chương trình sẽ không bị dừng lại khi ấn Ctrl+Z;
