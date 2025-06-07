@@ -1,0 +1,3 @@
+Câu hỏi: Tại sao chúng ta cần sử dụng kill() để gửi tín hiệu trong bài này?
+
+Trả lời: vì đây là hai process độc lập nên chỉ có thể gửi tín hiệu từ process cha tới process con bằng kill()
