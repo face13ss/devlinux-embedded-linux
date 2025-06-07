@@ -1,0 +1,3 @@
+Câu hỏi: Điều gì xảy ra nếu không gọi lại alarm(1) trong hàm xử lý?
+
+Trả lời: chương trình sẽ bị treo mãi ở Timer = 1 second
