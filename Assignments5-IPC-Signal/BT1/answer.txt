@@ -1,0 +1,3 @@
+Câu hỏi: Nếu bỏ qua tín hiệu SIGINT, chuyện gì sẽ xảy ra khi nhấn Ctrl+C?
+
+Trả lời: Chương trình sẽ không bao giờ dừng lại khi nhận được tín hiệu SIGINT
