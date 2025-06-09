@@ -2,6 +2,7 @@
     "files.associations": {
         "unistd.h": "c",
         "fcntl.h": "c",
-        "struct_stat_time64_helper.h": "c"
+        "struct_stat_time64_helper.h": "c",
+        "thread-shared-types.h": "c"
     }
 }
