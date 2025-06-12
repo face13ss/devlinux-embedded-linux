@@ -3,12 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <netinet/in.h> // 
+#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <sys/un.h>
 
 #define LISTEN_BACKLOG 50
 #define BUFFER_SIZE 256
+
+#define SOCKET_PATH "/tmp/mysocket"
 
 #define handle_error(msg) \
     do { perror(msg); exit(EXIT_FAILURE); } while (0)
@@ -56,39 +59,32 @@ void chat_func(int new_socket_sd)
 
 int main(int argc, char *argv[])
 {
-    int port_no, len;
-    int server_sd, new_socket_sd;
-    struct sockaddr_in serv_addr, client_addr;
+    int server_sd, new_socket_sd, len;
+    struct sockaddr_un serv_addr, client_addr;
 
-    // read port number on command line
-    if (argc < 2) {
-        printf("No port provided\ncommand: ./server <port number>\n");
-        exit(EXIT_FAILURE);
-    } else {
-        port_no = atoi(argv[1]);
-    }
 
-    memset(&serv_addr, 0, sizeof(struct sockaddr_in));
-    memset(&client_addr, 0, sizeof(struct sockaddr_in));
+     unlink(SOCKET_PATH);
 
     // Create socket
-    server_sd = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_sd == -1)
+    server_sd = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (server_sd == -1) {
         handle_error("socket()");
-
-    int opt = 1;
-    if (setsockopt(server_sd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
-        handle_error("setsockopt()");
+        exit(EXIT_FAILURE);
+    }
+        
+    memset(&serv_addr, 0, sizeof(serv_addr));
 
 
     // Init local address for server
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port_no);
-    serv_addr.sin_addr.s_addr = INADDR_ANY; // inet_addr
+    serv_addr.sun_family = AF_UNIX;
+    strcpy(serv_addr.sun_path, SOCKET_PATH);
 
     // Bind socket with server IP address
-    if(bind(server_sd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1)
+    if(bind(server_sd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1){
         handle_error("bind()");
+        exit(EXIT_FAILURE);
+    }
+        
 
     // Max 50 connect in queue
     if (listen(server_sd, LISTEN_BACKLOG) == -1)
@@ -97,8 +93,8 @@ int main(int argc, char *argv[])
     len = sizeof(client_addr);
 
     while (1) {
-        printf("Server is listening at port: %d \n....\n", port_no);
-        new_socket_sd = accept(server_sd, (struct sockaddr*)&client_addr, (socklen_t *)&len);
+        printf("Server is listening\n....\n");
+        new_socket_sd = accept(server_sd,NULL , NULL);
         if (new_socket_sd == -1)
             handle_error("accept()");
 
