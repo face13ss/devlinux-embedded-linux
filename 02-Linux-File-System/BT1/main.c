@@ -11,7 +11,7 @@ int main() {
 
     fd = open("textfile.txt", O_RDWR | O_APPEND);
 
-    if (fd == -1) {
+    if (fd < 0) {
         printf("Open file failed");
         return 1;
     }
