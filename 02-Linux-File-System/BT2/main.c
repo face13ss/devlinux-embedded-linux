@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
         // Read from file
         fd = open(argv[1], O_RDONLY);
 
-        if (fd < 0) {
+        if (fd == -1) {
             perror("Open file failed");
             return 1;
         }
